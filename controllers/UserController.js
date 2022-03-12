@@ -37,7 +37,7 @@ class UserController {
       response.status(403);
       response.json({ error: "Senha inválido!" })
     }
-    
+
     //Validar email
     var emailExists = await User.findEmail(email);
     if (emailExists) {
@@ -47,6 +47,37 @@ class UserController {
     }
 
     await User.new(email, password, name);
+    response.status(200);
+    response("Ok");
+  }
+  async edit(request, response) {
+    var { id, name, role, email } = request.body;
+    var result = await User.update(id, email, name, role);
+    if (result != undefined) {
+      if (result.status) {
+        response.status(200);
+        response.send("Ok");
+      } else {
+        response.status(406);
+        response.send(result.error);
+      }
+    } else {
+      response.status(406);
+      response.send("Erro no servidor");
+    }
+  }
+
+
+  async remove(request, response) {
+    var id = request.params.id;
+    var result = await User.delete(id);
+    if (result.status) {
+      response.status(200);
+      response.send("Ok");
+    } else {
+      response.status(406);
+      response.send(result.error);
+    }
   }
 }
 module.exports = new UserController();
