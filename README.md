@@ -12,7 +12,12 @@ O objetivo do projeto é fixar e resumir os conteúdos acerca de validações de
 - Knex.JS
 - Express
 - Router
+- Node Bcrypt.js
 
-## Controllers 
+## 🎛 Controllers
 
-A ideia dos controllers é separar a lógica da aplicação. 
+A ideia dos controllers é separar a lógica da aplicação.
+
+## ↔ Models
+
+Tem a responsabilidade de lidar com o banco de dados.

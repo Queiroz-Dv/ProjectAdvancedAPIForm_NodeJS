@@ -1,32 +1,52 @@
+const res = require("express/lib/response");
+var User = require("../models/User");
 class UserController {
-  async index(request, response) { }
 
+  //Consulta Usuários
+  async index(request, response) {
+    var users = await User.findAll();
+    response.json(users);
+  }
+
+  //Consulta um usuário 
+  async findUser(request, response) {
+    var id = rquest.params.id;
+    var user = await User.findById(id);
+    if (user == undefined) {
+      response.status(404);
+      response.json({});
+    } else {
+      response.status(200);
+      response.json(user);
+    }
+  }
+  //Cria usuários
   async create(request, response) {
     var { email, name, password } = request.body;
     if (email == undefined) {
       response.status(403);
       response.json({ error: "E-mail inválido!" })
-    } else {
-      response.status(200);
-      response.json({ sucess: "E-mail cadastrado com sucesso" });
     }
 
     if (name == undefined) {
       response.status(403);
       response.json({ error: "Nome inválido!" })
-    } else {
-      response.status(200);
-      response.json({ sucess: "Nome cadastrado com sucesso" });
     }
 
     if (password == undefined) {
       response.status(403);
       response.json({ error: "Senha inválido!" })
-    } else {
-      response.status(200);
-      response.json({ sucess: "Senha cadastrado com sucesso" });
     }
-  }
+    
+    //Validar email
+    var emailExists = await User.findEmail(email);
+    if (emailExists) {
+      response.status(406);
+      response.json({ error: "E-mail já cadastrado" })
+      return;
+    }
 
+    await User.new(email, password, name);
+  }
 }
 module.exports = new UserController();
