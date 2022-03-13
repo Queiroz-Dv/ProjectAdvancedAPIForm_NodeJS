@@ -1,4 +1,4 @@
-# 🔮 Project Advanced Form - NodeJS
+# 🔮 Project Advanced API Form - NodeJS
 
 O objetivo do projeto é fixar e resumir os conteúdos acerca de validações de formulários bem como aprender sobre o padrão arquitetural MVC.
 
