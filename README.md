@@ -12,7 +12,8 @@ O objetivo do projeto é fixar e resumir os conteúdos acerca de validações de
 - Knex.JS
 - Express
 - Router
-- Node Bcrypt.js
+- Node 
+- Bcrypt.js
 - Json Web Tokens
 
 ## 🎛 Controllers
