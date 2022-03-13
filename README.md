@@ -13,6 +13,7 @@ O objetivo do projeto é fixar e resumir os conteúdos acerca de validações de
 - Express
 - Router
 - Node Bcrypt.js
+- Json Web Tokens
 
 ## 🎛 Controllers
 
@@ -21,3 +22,7 @@ A ideia dos controllers é separar a lógica da aplicação.
 ## ↔ Models
 
 Tem a responsabilidade de lidar com o banco de dados.
+
+# 👀 Views
+
+É responsável por apresentar os formuários, respostas e da interação com o usuário.

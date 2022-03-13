@@ -1,6 +1,9 @@
-const res = require("express/lib/response");
 var User = require("../models/User");
 var PasswordToken = require("../models/PasswordToken");
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcrypt");
+var secret = "mxtarget"
+
 class UserController {
 
   //Consulta Usuários
@@ -46,11 +49,12 @@ class UserController {
       response.json({ error: "E-mail já cadastrado" })
       return;
     }
-
     await User.new(email, password, name);
     response.status(200);
     response("Ok");
   }
+
+  //Edita um usuário
   async edit(request, response) {
     var { id, name, role, email } = request.body;
     var result = await User.update(id, email, name, role);
@@ -94,7 +98,7 @@ class UserController {
     }
   }
 
-
+  //Mudar de senhar
   async changePassword(request, response) {
     var token = request.body.token;
     var password = request.body.password;
@@ -107,6 +111,26 @@ class UserController {
     } else {
       response.status(406);
       response.send("Token Inválido.");
+    }
+  }
+
+  //Login
+  async login(request, response) {
+    var { email, password } = request.body;
+
+    var user = await User.findByEmail(email);
+    if (user != undefined) {
+      var result = await bcrypt.compare(password, user.password);
+      if (result) {
+        var token = jwt.sign({ email: user.email, role: user.role }, secret);
+        response.status(200);
+        response.json({ token: token })
+      } else {
+        response.status(406);
+        response.send("Senha incorreta");
+      }
+    } else {
+      response.json({ status: false })
     }
   }
 }
