@@ -1,5 +1,6 @@
 const res = require("express/lib/response");
 var User = require("../models/User");
+var PasswordToken = require("../models/PasswordToken");
 class UserController {
 
   //Consulta Usuários
@@ -67,13 +68,26 @@ class UserController {
     }
   }
 
-
+  //Remover usuário
   async remove(request, response) {
     var id = request.params.id;
     var result = await User.delete(id);
     if (result.status) {
       response.status(200);
       response.send("Ok");
+    } else {
+      response.status(406);
+      response.send(result.error);
+    }
+  }
+
+  //Método de recuperar senha 
+  async recoverPassword(request, response) {
+    var email = request.body.email;
+    var result = await PasswordToken.create(email);
+    if (result.status) {
+      response.status(200);
+      response.send("" + result.token);
     } else {
       response.status(406);
       response.send(result.error);

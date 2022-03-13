@@ -25,7 +25,6 @@ class User {
       console.log(error)
       return undefined;
     }
-
   }
 
   async new(email, password, name) {
@@ -34,6 +33,19 @@ class User {
       await knex.insert({ email, password: hash, name, role: 0 }).table("users");
     } catch (error) {
       console.log(error);
+    }
+  }
+  async findByEmail(email) {
+    try {
+      var result = await knex.select(["id", "email", "role"]).where({ email: email }).table("users");
+      if (result.length > 0) {
+        return [0];
+      } else {
+        return undefined
+      }
+    } catch (error) {
+      console.log(error)
+      return undefined;
     }
   }
 
